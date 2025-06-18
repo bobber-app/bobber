@@ -1,0 +1,131 @@
+# Bobber
+Een cross-platform app die zorgt dat mensen hun drankgewoontes kunnen bijhouden. Zo zie je hoeveel je van alles gedronken hebt en kan je vergelijken met vrienden
+
+## Frontend
+
+Voor de frontend van **Bobber** verkennen we twee krachtige frameworks die beide mobiele én webapplicaties ondersteunen vanuit één codebase: **Quasar** en **Ionic**. Beide zijn geschikt voor PWA's, native apps (via Capacitor), en snelle ontwikkeling met moderne frontend stacks.
+
+---
+
+### Quasar
+
+**Voordelen**
+- Eén codebase voor **SPA**, **SSR**, **PWA**, **Mobile (iOS/Android)** én **Desktop (Electron)**.
+- Volledige integratie met **Vue.js** – ideaal voor Vue developers.
+- Snelle setup via CLI, met veel ingebouwde tooling.
+- Zeer goede **PWA**-ondersteuning.
+- Mooie standaard UI gebaseerd op **Material Design**.
+- Active ondersteuning voor Capacitor en platform targets.
+
+**Nadelen**
+- Kleiner ecosysteem dan Ionic, met minder tutorials/templates.
+- Kleinere community → minder directe hulp via forums/StackOverflow.
+- Sommige **Capacitor-plugins** vereisen handmatige configuratie of integratie.
+
+---
+
+### Ionic
+
+**Voordelen**
+- Ondersteunt meerdere frontend frameworks: **Vue**, **React**, én **Angular**.
+- Grote community en veel beschikbare plugins/tools.
+- Strakke integratie met **Capacitor** voor native device functionaliteit.
+- Veel officiële integraties beschikbaar (Firebase, Auth, Payments, enz.).
+- Goede documentatie en starters/templates beschikbaar.
+
+**Nadelen**
+- UI kan minder 'native' ogen zonder aangepaste styling.
+- Werken met **Angular** (indien gekozen) kan complex zijn voor beginners.
+- Grotere **bundle size** bij gebruik van veel plugins of 3rd-party componenten.
+
+---
+
+> **Aanbevolen keuze voor Bobber**:  
+> **Quasar** is een uitstekende keuze gezien je ervaring met Vue.js, en biedt veel flexibiliteit vanuit één codebase – ideaal voor snelle iteratie en deployment naar meerdere platforms.
+
+
+## Backend
+
+In dit project verkennen we verschillende backend-opties voor het bouwen van een schaalbare, moderne API voor **Bobber**. De focus ligt op technologieën die goed integreren met een frontend in **Quasar/Ionic** en makkelijk te hosten zijn op **Google Cloud**.
+
+---
+
+### Fastify
+
+**Voordelen**
+- Lichtgewicht en zeer performant.
+- Volledige TypeScript-ondersteuning.
+- Plugin-ecosysteem (Swagger, CORS, JWT, enz.).
+- Flexibel en goed geschikt voor serverless omgevingen (Cloud Run, Vercel).
+- Lage overhead, ideaal voor API's met veel requests.
+
+**Nadelen**
+- Minder structuur: vereisen eigen keuzes qua projectarchitectuur.
+- Kleinere community dan NestJS.
+- Geavanceerde features (zoals DI) vergen extra setup of libraries.
+
+---
+
+### NestJS
+
+**Voordelen**
+- Modulaire architectuur met duidelijke best practices.
+- Sterke TypeScript-integratie.
+- Grote community, uitstekende documentatie.
+- Ondersteuning voor GraphQL, WebSockets, microservices.
+- Uitstekend schaalbaar voor grotere projecten of teams.
+
+**Nadelen**
+- Meer boilerplate en initiële complexiteit.
+- Steilere leercurve door abstracties (modules, providers, interceptors).
+- Minder flexibel als je buiten de conventies wil werken.
+
+---
+
+### Laravel
+
+**Voordelen**
+- Zeer volwassen framework met alles ingebouwd (ORM, queues, auth, testing).
+- Krachtig ecosysteem (Forge, Vapor, Nova).
+- Grote community en uitgebreide documentatie.
+- Zeer productief voor snelle ontwikkeling.
+
+**Nadelen**
+- Gebaseerd op PHP, minder goed afgestemd op een JS/TS frontend stack.
+- Minder integratie met moderne serverless/cloud-native Node-omgevingen.
+- Geen type safety tussen frontend en backend.
+
+---
+
+### Deno
+
+**Voordelen**
+- Moderne runtime met ingebouwde TypeScript ondersteuning.
+- Veiligere standaardinstellingen dan Node.js.
+- Supersnelle startup-tijden (ideaal voor serverless).
+- Geen `node_modules`: clean dependency management via URLs.
+
+**Nadelen**
+- Nog jong ecosysteem.
+- Minder compatibiliteit met bestaande Node.js libraries.
+- Minder tutorials, tooling en community-ondersteuning.
+
+---
+
+### Nitro (van Nuxt-team)
+
+**Voordelen**
+- Minimalistische backend-engine, geoptimaliseerd voor serverless.
+- Perfect inzetbaar op Cloudflare, GCP, Vercel.
+- Volledige TypeScript support.
+- Supersnel op te zetten via file-based API (`/api/*.ts` structuur).
+
+**Nadelen**
+- Minder geschikt voor complexe backend-logica of grote codebases.
+- Geen klassieke MVC-structuur of ingebouwde DI.
+- Gericht op Nuxt/JAMstack, minder standalone als backend framework.
+
+---
+
+> **Aanbevolen keuze voor Bobber**:  
+> **NestJS** voor zijn schaalbaarheid, structuur en lange termijn onderhoud – met een goed ecosysteem voor groeiende features, realtime ondersteuning en TypeScript integratie.
