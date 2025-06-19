@@ -25,6 +25,8 @@
     "@pinia/colada": "^0.17.1",
     "@vitest/eslint-plugin": "^1.2.7",
     "@vue/eslint-config-prettier": "^10.2.0",
+    "@vueuse/core": "^13.4.0",
+    "axios": "^1.10.0",
     "eslint-plugin-oxlint": "^1.2.0",
     "ionicons": "^7.0.0",
     "pinia": "^3.0.3",
