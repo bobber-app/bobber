@@ -1,0 +1,11 @@
+stages:
+  - test
+  - build
+#  - deploy
+
+test:
+  stage: test
+  image: node:24
+  script:
+    - pnpm install
+    - pnpm test

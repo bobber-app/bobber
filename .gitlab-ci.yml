@@ -1,0 +1,7 @@
+stage:
+  - triggers
+
+trigger-app:
+  stage: triggers
+  trigger:
+    include: app/.gitlab-ci.yml
