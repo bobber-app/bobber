@@ -7,6 +7,6 @@ test:
   stage: test
   image: node:24
   script:
-    - pnpm install
-    - pnpm test
+    - npm install
+    - npm test
   
