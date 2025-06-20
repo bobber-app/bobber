@@ -1,7 +1,14 @@
-stage:
-  - triggers
+stages:
+  - build
+  - test
 
-trigger-app:
-  stage: triggers
-  trigger:
-    include: app/.gitlab-ci.yml
+top-level-job:
+  stage: build
+  script:
+    - echo "Hello world..."
+
+include:
+  - local: '/app/.gitlab-ci.yml'
+    rules:
+      - changes:
+        - 'app/*'
