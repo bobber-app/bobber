@@ -1,7 +1,7 @@
 stages:
   - test
   # - build
-#  - deploy
+  # - deploy
 
 test:
   stage: test
@@ -9,3 +9,4 @@ test:
   script:
     - pnpm install
     - pnpm test
+  
