@@ -2,10 +2,12 @@ import { AppController } from './app.controller'
 import { Module, OnModuleInit } from '@nestjs/common'
 import { MikroORM } from '@mikro-orm/mysql'
 import { MikroOrmModule } from '@mikro-orm/nestjs'
+import { UserController } from './user/user.controller'
+import { UserModule } from './user/user.module'
 
 @Module({
-  imports: [MikroOrmModule.forRoot()],
-  controllers: [AppController],
+  imports: [MikroOrmModule.forRoot(), UserModule],
+  controllers: [AppController, UserController],
   providers: [],
 })
 export class AppModule implements OnModuleInit {
