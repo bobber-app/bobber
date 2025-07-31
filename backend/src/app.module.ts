@@ -4,11 +4,19 @@ import { MikroORM } from '@mikro-orm/mysql'
 import { MikroOrmModule } from '@mikro-orm/nestjs'
 import { UserController } from './user/user.controller'
 import { UserModule } from './user/user.module'
+import { AuthModule } from './auth/auth.module'
+import { APP_GUARD } from '@nestjs/core'
+import { JwtAuthGuard } from './auth/jwt-auth.guard'
 
 @Module({
-  imports: [MikroOrmModule.forRoot(), UserModule],
+  imports: [MikroOrmModule.forRoot(), UserModule, AuthModule],
   controllers: [AppController, UserController],
-  providers: [],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+  ],
 })
 export class AppModule implements OnModuleInit {
   constructor(private readonly orm: MikroORM) {}
