@@ -3,9 +3,18 @@ import { UserService } from './user.service'
 import { UserController } from './user.controller'
 import { MikroOrmModule } from '@mikro-orm/nestjs'
 import { User } from './user.entity'
+import { JwtModule } from '@nestjs/jwt'
+import { EXPIRES_IN, SECRET } from '../config/jwt.config'
 
 @Module({
-  imports: [MikroOrmModule.forFeature([User])],
+  imports: [
+    MikroOrmModule.forFeature([User]),
+    JwtModule.register({
+      global: true,
+      secret: SECRET,
+      signOptions: { expiresIn: EXPIRES_IN },
+    }),
+  ],
   controllers: [UserController],
   providers: [UserService],
   exports: [UserService],

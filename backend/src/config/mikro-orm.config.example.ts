@@ -1,9 +1,9 @@
-import {defineConfig} from '@mikro-orm/mysql'
-import {SqlHighlighter} from '@mikro-orm/sql-highlighter'
-import {TsMorphMetadataProvider} from '@mikro-orm/reflection'
-import {Migrator} from '@mikro-orm/migrations'
-import {EntityGenerator} from '@mikro-orm/entity-generator'
-import {SeedManager} from '@mikro-orm/seeder'
+import { defineConfig } from '@mikro-orm/mysql'
+import { SqlHighlighter } from '@mikro-orm/sql-highlighter'
+import { TsMorphMetadataProvider } from '@mikro-orm/reflection'
+import { Migrator } from '@mikro-orm/migrations'
+import { EntityGenerator } from '@mikro-orm/entity-generator'
+import { SeedManager } from '@mikro-orm/seeder'
 
 export default defineConfig({
   host: 'localhost',
