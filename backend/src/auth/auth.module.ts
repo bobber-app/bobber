@@ -4,7 +4,7 @@ import { LocalStrategy } from './local.strategy'
 import { PassportModule } from '@nestjs/passport'
 import { UserModule } from '../user/user.module'
 import { JwtModule } from '@nestjs/jwt'
-import { EXPIRES_IN, SECRET } from '../config/jwt.config'
+import { EXPIRES_IN, SECRET } from '../jwt.config'
 import { JwtStrategy } from './jwt.strategy'
 
 @Module({

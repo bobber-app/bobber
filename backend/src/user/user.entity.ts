@@ -1,6 +1,7 @@
-import { Entity, Opt, PrimaryKey, Property, wrap } from '@mikro-orm/core'
+import { Entity, PrimaryKey, Property, wrap } from '@mikro-orm/core'
 import { IsEmail, IsStrongPassword } from 'class-validator'
 import crypto from 'crypto'
+import { CreateUserDto } from './dto/create-user.dto'
 
 @Entity()
 export class User {
@@ -10,29 +11,21 @@ export class User {
   @Property()
   username: string
 
-  @Property({ hidden: true })
+  @Property()
   @IsEmail()
   email: string
-
-  @Property()
-  bio: string & Opt = ''
-
-  @Property()
-  image: string & Opt = ''
 
   @Property({ hidden: true })
   @IsStrongPassword()
   password: string
 
-  constructor(username: string, email: string, password: string) {
-    this.username = username
-    this.email = email
-    this.password = crypto.createHmac('sha256', password).digest('hex')
+  constructor(dto: CreateUserDto) {
+    this.username = dto.username
+    this.email = dto.email
+    this.password = crypto.createHmac('sha256', dto.password).digest('hex')
   }
 
   toJSON() {
-    const o = wrap<User>(this).toObject()
-    o.image = this.image || 'https://static.productionready.io/images/smiley-cyrus.jpg'
-    return o
+    return wrap<User>(this).toObject()
   }
 }
