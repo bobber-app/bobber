@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common'
+import { ConflictException, Injectable } from '@nestjs/common'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { InjectRepository } from '@mikro-orm/nestjs'
 import { User } from './user.entity'
-import { EntityRepository } from '@mikro-orm/core'
+import { EntityDTO, EntityRepository } from '@mikro-orm/core'
 
 @Injectable()
 export class UserService {
@@ -12,8 +12,16 @@ export class UserService {
     private readonly userRepository: EntityRepository<User>,
   ) {}
 
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user'
+  async create(createUserDto: CreateUserDto): Promise<EntityDTO<User>> {
+    // Check if user already exists
+    const existingUser = await this.findOneByUsername(createUserDto.username)
+    if (existingUser) {
+      throw new ConflictException('User with this username already exists')
+    }
+
+    const user = new User(createUserDto)
+    this.userRepository.create(user)
+    return user.toJSON()
   }
 
   findAll() {

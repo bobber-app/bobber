@@ -2,7 +2,6 @@ import { AppController } from './app.controller'
 import { Module, OnModuleInit } from '@nestjs/common'
 import { MikroORM } from '@mikro-orm/mysql'
 import { MikroOrmModule } from '@mikro-orm/nestjs'
-import { UserController } from './user/user.controller'
 import { UserModule } from './user/user.module'
 import { AuthModule } from './auth/auth.module'
 import { APP_GUARD } from '@nestjs/core'
@@ -10,7 +9,7 @@ import { JwtAuthGuard } from './auth/jwt-auth.guard'
 
 @Module({
   imports: [MikroOrmModule.forRoot(), UserModule, AuthModule],
-  controllers: [AppController, UserController],
+  controllers: [AppController],
   providers: [
     {
       provide: APP_GUARD,

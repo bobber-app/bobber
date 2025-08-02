@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common'
 import { UserService } from './user.service'
-import { UserController } from './user.controller'
 import { MikroOrmModule } from '@mikro-orm/nestjs'
 import { User } from './user.entity'
 import { JwtModule } from '@nestjs/jwt'
-import { EXPIRES_IN, SECRET } from '../config/jwt.config'
+import { EXPIRES_IN, SECRET } from '../jwt.config'
 
 @Module({
   imports: [
@@ -15,7 +14,7 @@ import { EXPIRES_IN, SECRET } from '../config/jwt.config'
       signOptions: { expiresIn: EXPIRES_IN },
     }),
   ],
-  controllers: [UserController],
+  controllers: [],
   providers: [UserService],
   exports: [UserService],
 })
