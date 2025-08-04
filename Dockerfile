@@ -4,13 +4,13 @@ RUN npm install -g pnpm
 FROM base AS dependencies
 
 WORKDIR /app
-COPY package.json pnpm-lock.yaml ./
+COPY backend/package.json backend/pnpm-lock.yaml ./
 RUN pnpm install
 
 FROM base AS build
 
 WORKDIR /app
-COPY . . 
+COPY ./backend . 
 COPY --from=dependencies /app/node_modules ./node_modules
 RUN pnpm build
 RUN pnpm prune --prod
