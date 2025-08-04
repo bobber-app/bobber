@@ -13,7 +13,7 @@ services:
       - DATABASE_URL=mysql://root:password@mysql:3306/bobber
 
   mysql:
-    image: mysql:8.0
+    image: mysql:9.4
     container_name: bobber-mysql
     environment:
       MYSQL_ROOT_PASSWORD: password
