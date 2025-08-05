@@ -8,8 +8,8 @@ async function bootstrap() {
   app.setGlobalPrefix('api')
 
   const config = new DocumentBuilder()
-    .setTitle('RabotPD')
-    .setDescription('The RabotPD API description')
+    .setTitle('Bobber')
+    .setDescription('The Bobber API description')
     .setVersion('1.0')
     .addTag('api')
     .addBearerAuth()

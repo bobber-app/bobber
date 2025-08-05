@@ -19,8 +19,8 @@ export class UserService {
       throw new ConflictException('User with this username already exists')
     }
 
-    const user = new User(createUserDto)
-    this.userRepository.create(user)
+    const user = await User.create(createUserDto)
+    await this.userRepository.insert(user)
     return user.toJSON()
   }
 

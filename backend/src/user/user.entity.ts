@@ -1,6 +1,6 @@
 import { Entity, PrimaryKey, Property, wrap } from '@mikro-orm/core'
 import { IsEmail, IsStrongPassword } from 'class-validator'
-import crypto from 'crypto'
+import * as argon2 from 'argon2'
 import { CreateUserDto } from './dto/create-user.dto'
 
 @Entity()
@@ -22,7 +22,19 @@ export class User {
   constructor(dto: CreateUserDto) {
     this.username = dto.username
     this.email = dto.email
-    this.password = crypto.createHmac('sha256', dto.password).digest('hex')
+    this.password = dto.password
+  }
+
+  // Create a separate async method for password hashing
+  async hashPassword(): Promise<void> {
+    this.password = await argon2.hash(this.password || '')
+  }
+
+  // Static factory method as an alternative approach
+  static async create(dto: CreateUserDto): Promise<User> {
+    const user = new User(dto)
+    await user.hashPassword()
+    return user
   }
 
   toJSON() {
