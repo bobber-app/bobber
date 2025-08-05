@@ -2,7 +2,7 @@
 FROM node:20-alpine AS dependencies
 RUN npm install -g pnpm @quasar/cli
 WORKDIR /app
-COPY package.json pnpm-lock.yaml ./
+COPY package.json ./
 RUN pnpm install
 
 # Stage 2: Build and serve the application
