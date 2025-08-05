@@ -31,7 +31,8 @@
     "ionicons": "^7.0.0",
     "pinia": "^3.0.3",
     "vue": "^3.3.0",
-    "vue-router": "^4.2.0"
+    "vue-router": "^4.2.0",
+    "vue-tsc": "^2.1.10"
   },
   "devDependencies": {
     "@capacitor/cli": "7.4.0",
@@ -57,8 +58,7 @@
     "terser": "^5.4.0",
     "typescript": "^5.8.3",
     "vite": "6.3.4",
-    "vitest": "^0.34.6",
-    "vue-tsc": "^2.1.10"
+    "vitest": "^0.34.6"
   },
   "description": "An Ionic project"
 }

@@ -15,6 +15,7 @@ import { AuthenticatedRequest } from './auth.interfaces'
 import { CreateUserDto } from '@/user/dto/create-user.dto'
 import { Public } from '@/shared/public.decorator'
 import { LoginUserDto } from '@/auth/dto/login-user.dto'
+import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger'
 
 @Controller('auth')
 export class AuthController {
@@ -24,6 +25,10 @@ export class AuthController {
   @UsePipes(new ValidationPipe())
   @Public()
   @Post('/login')
+  @ApiOperation({ summary: 'User login' })
+  @ApiBody({ type: LoginUserDto })
+  @ApiResponse({ status: 200, description: 'Login successful' })
+  @ApiResponse({ status: 401, description: 'wrong username or password' })
   login(@Body() loginDto: LoginUserDto, @Request() req: AuthenticatedRequest) {
     return this.authService.login(req.user)
   }
@@ -36,6 +41,9 @@ export class AuthController {
 
   @Post('/register')
   @Public()
+  @ApiOperation({ summary: 'Register a new user' })
+  @ApiBody({ type: CreateUserDto })
+  @ApiResponse({ status: 201, description: 'User successfully registered' })
   async register(@Body(ValidationPipe) createUserDto: CreateUserDto) {
     return this.authService.register(createUserDto)
   }
