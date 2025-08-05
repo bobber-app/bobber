@@ -7,7 +7,7 @@ import { SeedManager } from '@mikro-orm/seeder'
 
 export default defineConfig({
   host: 'localhost',
-  port: 3307,
+  port: 3306,
   user: 'root',
   password: 'Azerty123',
   dbName: 'bobber',
