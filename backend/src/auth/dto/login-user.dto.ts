@@ -10,7 +10,8 @@ export class LoginUserDto {
   })
   @IsNotEmpty()
   @IsString()
-  @Length(3, 20)
+  @MinLength(3)
+  @MaxLength(20)
   readonly username: string
 
   @ApiProperty({ description: 'The password of the user', example: 'Azerty123!', minLength: 6 })
