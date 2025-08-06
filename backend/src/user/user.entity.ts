@@ -1,7 +1,7 @@
 import { Entity, PrimaryKey, Property, wrap } from '@mikro-orm/core'
 import { IsEmail, IsStrongPassword } from 'class-validator'
-import * as argon2 from 'argon2'
 import { CreateUserDto } from './dto/create-user.dto'
+import * as bcrypt from 'bcryptjs'
 
 @Entity()
 export class User {
@@ -25,16 +25,19 @@ export class User {
     this.password = dto.password
   }
 
-  // Create a separate async method for password hashing
   async hashPassword(): Promise<void> {
-    this.password = await argon2.hash(this.password || '')
+    const saltRounds = 12 // You can adjust this based on your security needs
+    this.password = await bcrypt.hash(this.password || '', saltRounds)
   }
 
-  // Static factory method as an alternative approach
   static async create(dto: CreateUserDto): Promise<User> {
     const user = new User(dto)
     await user.hashPassword()
     return user
+  }
+
+  async verifyPassword(plainPassword: string): Promise<boolean> {
+    return bcrypt.compare(plainPassword, this.password)
   }
 
   toJSON() {
