@@ -78,8 +78,17 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y build-essential python3
 
-      - name: Install dependencies
-        run: pnpm install
+      - name: Install dependencies (ignore scripts)
+        run: pnpm install --frozen-lockfile --ignore-scripts
+
+      - name: Run essential postinstall scripts
+        run: |
+          # Run SWC postinstall (needed for performance)
+          if [ -f "node_modules/@swc/core/postinstall.js" ]; then
+            cd node_modules/@swc/core && node postinstall.js
+            cd ../..
+          fi
+        continue-on-error: true
 
       - name: Run type checks
         run: pnpm run typecheck
