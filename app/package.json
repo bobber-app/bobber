@@ -9,6 +9,10 @@
     "preview": "vite preview",
     "test:e2e": "cypress run",
     "test:unit": "vitest",
+    "test": "vitest",
+    "typecheck": "vue-tsc --noEmit",
+    "format": "prettier --write \"src/**/*.{ts,js,vue}\" \"*.{ts,js,vue}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,js,vue}\" \"*.{ts,js,vue}\"",
     "lint:oxlint": "oxlint . --fix -D correctness --ignore-path .gitignore",
     "lint:eslint": "eslint . --fix",
     "lint": "npm run lint:eslint && npm run lint:oxlint"
