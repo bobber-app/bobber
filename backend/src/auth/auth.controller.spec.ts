@@ -6,6 +6,17 @@ import { LocalAuthGuard } from './local-auth.guard'
 import { User } from '@/user/user.entity'
 import { CreateUserDto } from '@/user/dto/create-user.dto'
 
+// Define proper types for request objects
+interface AuthenticatedRequest {
+  user: User
+  logout?: () => void
+}
+
+interface LoginUserDto {
+  username: string
+  password: string
+}
+
 describe('AuthController', () => {
   let controller: AuthController
 
@@ -43,13 +54,18 @@ describe('AuthController', () => {
 
   describe('login', () => {
     it('should return the result of authService.login', () => {
-      const mockUser = {
+      const mockUser: User = {
         id: 1,
         username: 'testuser',
         email: 'test@example.com',
       } as User
 
-      const mockRequest = {
+      const mockLoginDto: LoginUserDto = {
+        username: 'testuser',
+        password: 'password123',
+      }
+
+      const mockRequest: AuthenticatedRequest = {
         user: mockUser,
       }
 
@@ -59,9 +75,8 @@ describe('AuthController', () => {
 
       mockAuthService.login.mockReturnValue(mockLoginResult)
 
-      const result = controller.login(mockRequest as any)
+      const result = controller.login(mockLoginDto, mockRequest)
 
-      // Use mockAuthService instead of authService to avoid unbound method warning
       expect(mockAuthService.login).toHaveBeenCalledWith(mockUser)
       expect(result).toEqual(mockLoginResult)
     })
@@ -70,7 +85,7 @@ describe('AuthController', () => {
   describe('logout', () => {
     it('should call req.logout', () => {
       const mockLogout = jest.fn()
-      const mockRequest = {
+      const mockRequest: AuthenticatedRequest = {
         user: {
           id: 1,
           username: 'testuser',
@@ -79,7 +94,7 @@ describe('AuthController', () => {
         logout: mockLogout,
       }
 
-      controller.logout(mockRequest as any)
+      controller.logout(mockRequest)
 
       expect(mockLogout).toHaveBeenCalled()
     })
@@ -106,7 +121,6 @@ describe('AuthController', () => {
 
       const result = await controller.register(createUserDto)
 
-      // Use mockAuthService instead of authService to avoid unbound method warning
       expect(mockAuthService.register).toHaveBeenCalledWith(createUserDto)
       expect(result).toEqual(mockRegisterResult)
     })
@@ -114,17 +128,17 @@ describe('AuthController', () => {
 
   describe('getProfile', () => {
     it('should return the user from the request', () => {
-      const mockUser = {
+      const mockUser: User = {
         id: 1,
         username: 'testuser',
         email: 'test@example.com',
       } as User
 
-      const mockRequest = {
+      const mockRequest: AuthenticatedRequest = {
         user: mockUser,
       }
 
-      const result = controller.getProfile(mockRequest as any)
+      const result = controller.getProfile(mockRequest)
 
       expect(result).toEqual(mockUser)
     })

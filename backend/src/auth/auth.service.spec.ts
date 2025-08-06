@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { AuthService } from './auth.service'
-import { UserService } from '../user/user.service'
+import { AuthService } from '@/auth/auth.service'
+import { UserService } from '@/user/user.service'
 import { JwtService } from '@nestjs/jwt'
-import { User } from '../user/user.entity'
-import { CreateUserDto } from '../user/dto/create-user.dto'
+import { User } from '@/user/user.entity'
+import { CreateUserDto } from '@/user/dto/create-user.dto'
 
 describe('AuthService', () => {
   let authService: AuthService
