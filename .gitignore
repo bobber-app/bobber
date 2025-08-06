@@ -11,3 +11,10 @@
 /app/vite.config.d.ts
 /app/vite.config.js
 /setup_bobber_release1.sh
+/.idea/dataSources/1266c3f7-a7bc-46fb-8000-32c0920748a9.xml
+/.idea/dataSources.local.xml
+/.idea/dataSources/1266c3f7-a7bc-46fb-8000-32c0920748a9/storage_v2/_src_/schema/information_schema.FNRwLQ.meta
+/.idea/dataSources/1266c3f7-a7bc-46fb-8000-32c0920748a9/storage_v2/_src_/schema/performance_schema.kIw0nw.meta
+/.idea/dataSources/1266c3f7-a7bc-46fb-8000-32c0920748a9/storage_v2/_src_/schema/sys.zb4BAA.meta
+/.idea/dataSources/1266c3f7-a7bc-46fb-8000-32c0920748a9/storage_v2/_src_/schema/mysql.osA4Bg.meta
+/.idea/workspace.xml
