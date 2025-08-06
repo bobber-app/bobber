@@ -6,11 +6,11 @@ export class LoginUserDto {
     description: 'The username of the user',
     example: 'john_doe',
     minLength: 3,
-    maxLength: 50,
+    maxLength: 20,
   })
   @IsNotEmpty()
   @IsString()
-  @Length(3, 50)
+  @Length(3, 20)
   readonly username: string
 
   @ApiProperty({ description: 'The password of the user', example: 'Azerty123!', minLength: 6 })
