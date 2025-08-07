@@ -1,6 +1,62 @@
 # Bobber
 Een cross-platform app die zorgt dat mensen hun drankgewoontes kunnen bijhouden. Zo zie je hoeveel je van alles gedronken hebt en kan je vergelijken met vrienden
 
+## Docker Development Setup
+
+This project uses Docker to provide a consistent development environment. The setup includes:
+
+- Frontend (Ionic/Vue with Vite)
+- Backend (NestJS)
+- MySQL database
+
+### Prerequisites
+
+- [Docker](https://www.docker.com/products/docker-desktop/) installed on your machine
+- [Docker Compose](https://docs.docker.com/compose/install/) (usually included with Docker Desktop)
+
+### Getting Started
+
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd bobber
+   ```
+
+2. Start the development environment:
+   ```bash
+   docker-compose up
+   ```
+
+This single command will:
+- Build and start the frontend, backend, and MySQL services
+- Set up the necessary network connections between services
+- Mount your local code as volumes for hot reloading
+- Expose the services on the following ports:
+    - Frontend: http://localhost:5173
+    - Backend API: http://localhost:8080
+    - MySQL: localhost:3306
+
+### Development Workflow
+
+- The frontend and backend code will automatically reload when you make changes
+- Frontend code is in the `app` directory
+- Backend code is in the `backend` directory
+- Database data is persisted in a Docker volume
+
+### Stopping the Environment
+
+To stop the development environment:
+
+```bash
+docker-compose down
+```
+
+To stop and remove all containers, networks, and volumes:
+
+```bash
+docker-compose down -v
+```
+
 ## Frontend
 
 Voor de frontend van **Bobber** verkennen we twee krachtige frameworks die beide mobiele én webapplicaties ondersteunen vanuit één codebase: **Quasar** en **Ionic**. Beide zijn geschikt voor PWA's, native apps (via Capacitor), en snelle ontwikkeling met moderne frontend stacks.
@@ -130,58 +186,3 @@ In dit project verkennen we verschillende backend-opties voor het bouwen van een
 > **Aanbevolen keuze voor Bobber**:  
 > **NestJS** voor zijn schaalbaarheid, structuur en lange termijn onderhoud – met een goed ecosysteem voor groeiende features, realtime ondersteuning en TypeScript integratie.
 
-## Docker Development Setup
-
-This project uses Docker to provide a consistent development environment. The setup includes:
-
-- Frontend (Ionic/Vue with Vite)
-- Backend (NestJS)
-- MySQL database
-
-### Prerequisites
-
-- [Docker](https://www.docker.com/products/docker-desktop/) installed on your machine
-- [Docker Compose](https://docs.docker.com/compose/install/) (usually included with Docker Desktop)
-
-### Getting Started
-
-1. Clone the repository:
-   ```bash
-   git clone <repository-url>
-   cd bobber
-   ```
-
-2. Start the development environment:
-   ```bash
-   docker-compose up
-   ```
-
-This single command will:
-- Build and start the frontend, backend, and MySQL services
-- Set up the necessary network connections between services
-- Mount your local code as volumes for hot reloading
-- Expose the services on the following ports:
-  - Frontend: http://localhost:5173
-  - Backend API: http://localhost:8080
-  - MySQL: localhost:3306
-
-### Development Workflow
-
-- The frontend and backend code will automatically reload when you make changes
-- Frontend code is in the `app` directory
-- Backend code is in the `backend` directory
-- Database data is persisted in a Docker volume
-
-### Stopping the Environment
-
-To stop the development environment:
-
-```bash
-docker-compose down
-```
-
-To stop and remove all containers, networks, and volumes:
-
-```bash
-docker-compose down -v
-```
