@@ -3,7 +3,6 @@ import { UserService } from '@/user/user.service'
 import { User } from '@/user/user.entity'
 import { JwtService } from '@nestjs/jwt'
 import { CreateUserDto } from '@/user/dto/create-user.dto'
-import * as argon2 from 'argon2'
 
 @Injectable()
 export class AuthService {
@@ -14,7 +13,7 @@ export class AuthService {
 
   async validateUser(username: string, pass: string): Promise<User | null> {
     const user = await this.usersService.findOneByUsername(username)
-    if (await argon2.verify(user.password, pass)) {
+    if (user && (await user.verifyPassword(pass))) {
       return user
     }
     return null
