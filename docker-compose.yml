@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./app:/app
+      - /app/node_modules
+    environment:
+      - VITE_API_URL=http://localhost:8080
+    depends_on:
+      - backend
+    networks:
+      - bobber-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./backend:/app
+      - backend-node-modules:/app/node_modules
+    environment:
+      - NODE_ENV=development
+      - DATABASE_HOST=mysql
+      - DATABASE_PORT=3306
+      - DATABASE_USER=root
+      - DATABASE_PASSWORD=Azerty123
+      - DATABASE_NAME=bobber
+    depends_on:
+      - mysql
+    networks:
+      - bobber-network
+
+  mysql:
+    image: mysql:8.0
+    ports:
+      - "3307:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=Azerty123
+      - MYSQL_DATABASE=bobber
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - bobber-network
+
+networks:
+  bobber-network:
+    driver: bridge
+
+volumes:
+  mysql-data:
+  backend-node-modules:
