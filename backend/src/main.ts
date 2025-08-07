@@ -4,8 +4,13 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import { useContainer } from 'class-validator'
 
 async function bootstrap() {
-  const appOptions = { cors: true }
-  const app = await NestFactory.create(AppModule, appOptions)
+  const app = await NestFactory.create(AppModule)
+  app.enableCors({
+    origin: ['http://localhost:5173'],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    allowedHeaders: 'Content-Type, Authorization',
+    credentials: true,
+  })
   app.setGlobalPrefix('api')
 
   useContainer(app.select(AppModule), { fallbackOnErrors: true })
