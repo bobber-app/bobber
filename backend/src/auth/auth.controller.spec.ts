@@ -5,12 +5,7 @@ import { JwtAuthGuard } from './jwt-auth.guard'
 import { LocalAuthGuard } from './local-auth.guard'
 import { User } from '@/user/user.entity'
 import { CreateUserDto } from '@/user/dto/create-user.dto'
-
-// Define proper types for request objects
-interface AuthenticatedRequest {
-  user: User
-  logout?: () => void
-}
+import { AuthenticatedRequest } from './auth.interfaces'
 
 interface LoginUserDto {
   username: string
@@ -65,9 +60,9 @@ describe('AuthController', () => {
         password: 'password123',
       }
 
-      const mockRequest: AuthenticatedRequest = {
+      const mockRequest = {
         user: mockUser,
-      }
+      } as AuthenticatedRequest
 
       const mockLoginResult = {
         access_token: 'test-jwt-token',
@@ -85,14 +80,14 @@ describe('AuthController', () => {
   describe('logout', () => {
     it('should call req.logout', () => {
       const mockLogout = jest.fn()
-      const mockRequest: AuthenticatedRequest = {
+      const mockRequest = {
         user: {
           id: 1,
           username: 'testuser',
           email: 'test@example.com',
         } as User,
         logout: mockLogout,
-      }
+      } as unknown as AuthenticatedRequest
 
       controller.logout(mockRequest)
 
@@ -134,9 +129,9 @@ describe('AuthController', () => {
         email: 'test@example.com',
       } as User
 
-      const mockRequest: AuthenticatedRequest = {
+      const mockRequest = {
         user: mockUser,
-      }
+      } as AuthenticatedRequest
 
       const result = controller.getProfile(mockRequest)
 
