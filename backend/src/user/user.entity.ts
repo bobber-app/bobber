@@ -2,6 +2,7 @@ import { Entity, PrimaryKey, Property, wrap } from '@mikro-orm/core'
 import { IsEmail, IsStrongPassword } from 'class-validator'
 import { CreateUserDto } from './dto/create-user.dto'
 import * as bcrypt from 'bcryptjs'
+import { SALT_ROUNDS } from '@/secrets.config'
 
 @Entity()
 export class User {
@@ -26,8 +27,7 @@ export class User {
   }
 
   async hashPassword(): Promise<void> {
-    const saltRounds = 12 // You can adjust this based on your security needs
-    this.password = await bcrypt.hash(this.password || '', saltRounds)
+    this.password = await bcrypt.hash(this.password || '', SALT_ROUNDS)
   }
 
   static async create(dto: CreateUserDto): Promise<User> {
