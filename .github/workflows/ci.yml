@@ -93,7 +93,7 @@ jobs:
       # Add this step before your typecheck in your CI/CD pipeline
       - name: Create config files from examples
         run: |
-          cd backend/src
+          cd ./src
           cp secrets.config.example.ts secrets.config.ts
           cp mikro-orm.config.example.ts mikro-orm.config.ts
 
