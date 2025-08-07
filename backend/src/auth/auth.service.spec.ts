@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { AuthService } from '@/auth/auth.service'
+import { AuthService } from './auth.service'
 import { UserService } from '@/user/user.service'
 import { JwtService } from '@nestjs/jwt'
 import { User } from '@/user/user.entity'
@@ -45,18 +45,21 @@ describe('AuthService', () => {
 
   describe('validateUser', () => {
     it('should return user object when credentials are valid', async () => {
+      const mockVerifyPassword = jest.fn().mockResolvedValue(true)
       const mockUser = {
         id: 1,
         username: 'testuser',
-        password: 'password123',
+        password: 'hashedpassword',
         email: 'test@example.com',
-      } as User
+        verifyPassword: mockVerifyPassword,
+      } as unknown as User
 
       mockUserService.findOneByUsername.mockResolvedValue(mockUser)
 
       const result = await authService.validateUser('testuser', 'password123')
 
       expect(mockUserService.findOneByUsername).toHaveBeenCalledWith('testuser')
+      expect(mockVerifyPassword).toHaveBeenCalledWith('password123')
       expect(result).toEqual(mockUser)
     })
 
@@ -70,18 +73,21 @@ describe('AuthService', () => {
     })
 
     it('should return null when password is invalid', async () => {
+      const mockVerifyPassword = jest.fn().mockResolvedValue(false)
       const mockUser = {
         id: 1,
         username: 'testuser',
-        password: 'password123',
+        password: 'hashedpassword',
         email: 'test@example.com',
-      } as User
+        verifyPassword: mockVerifyPassword,
+      } as unknown as User
 
       mockUserService.findOneByUsername.mockResolvedValue(mockUser)
 
       const result = await authService.validateUser('testuser', 'wrongpassword')
 
       expect(mockUserService.findOneByUsername).toHaveBeenCalledWith('testuser')
+      expect(mockVerifyPassword).toHaveBeenCalledWith('wrongpassword')
       expect(result).toBeNull()
     })
   })
