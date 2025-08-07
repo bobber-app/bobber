@@ -91,17 +91,10 @@ jobs:
         continue-on-error: true
 
       # Add this step before your typecheck in your CI/CD pipeline
-      - name: Create config files
+      - name: Create config files from examples
         run: |
           cd backend/src
-          # Create secrets config
           cp secrets.config.example.ts secrets.config.ts
-          # Or with dummy values:
-          # echo "export const SECRET = 'dummy-secret'" > secrets.config.ts
-          # echo "export const EXPIRES_IN = '1h'" >> secrets.config.ts
-          # echo "export const SALT_ROUNDS = 10" >> secrets.config.ts
-          
-          # Create mikro-orm config
           cp mikro-orm.config.example.ts mikro-orm.config.ts
 
       - name: Run type checks
