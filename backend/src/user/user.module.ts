@@ -3,7 +3,7 @@ import { UserService } from './user.service'
 import { MikroOrmModule } from '@mikro-orm/nestjs'
 import { User } from './user.entity'
 import { JwtModule } from '@nestjs/jwt'
-import { EXPIRES_IN, SECRET } from '../jwt.config'
+import { EXPIRES_IN, SECRET } from '@/secrets.config'
 
 @Module({
   imports: [

@@ -9,22 +9,38 @@ import { UpdateUserDto } from './dto/update-user.dto'
 
 // Mock the User class to avoid crypto issues in tests
 jest.mock('./user.entity', () => {
+  const mockUser = {
+    id: 1,
+    username: 'testuser',
+    email: 'test@example.com',
+    password: 'hashed_password',
+    toJSON: jest.fn().mockReturnValue({
+      id: 1,
+      username: 'testuser',
+      email: 'test@example.com',
+    }),
+    hashPassword: jest.fn().mockResolvedValue(undefined),
+    verifyPassword: jest.fn().mockResolvedValue(true),
+  }
+
   return {
-    User: jest.fn().mockImplementation((dto) => {
-      return {
+    User: jest.fn().mockImplementation((dto: CreateUserDto) => ({
+      ...mockUser,
+      username: dto.username,
+      email: dto.email,
+      toJSON: jest.fn().mockReturnValue({
         id: 1,
         username: dto.username,
         email: dto.email,
-        password: 'hashed_password',
-        toJSON: jest.fn().mockReturnValue({
-          id: 1,
-          username: dto.username,
-          email: dto.email,
-        }),
-      }
-    }),
+      }),
+    })),
   }
 })
+
+// Mock the static create method
+const mockUserCreate = jest.fn()
+const MockUser = User as jest.MockedClass<typeof User>
+MockUser.create = mockUserCreate
 
 describe('UserService', () => {
   let service: UserService
@@ -34,7 +50,8 @@ describe('UserService', () => {
     mockRepository = {
       findOne: jest.fn(),
       findAll: jest.fn(),
-      create: jest.fn(),
+      insert: jest.fn(),
+      nativeUpdate: jest.fn(),
     }
 
     const module: TestingModule = await Test.createTestingModule({
@@ -78,12 +95,14 @@ describe('UserService', () => {
       } as unknown as User
 
       mockRepository.findOne = jest.fn().mockResolvedValue(null)
-      mockRepository.create = jest.fn().mockReturnValue(mockUser)
+      mockUserCreate.mockResolvedValue(mockUser)
+      mockRepository.insert = jest.fn().mockResolvedValue(undefined)
 
       const result = await service.create(createUserDto)
 
       expect(mockRepository.findOne).toHaveBeenCalledWith({ username: createUserDto.username })
-      expect(mockRepository.create).toHaveBeenCalled()
+      expect(mockUserCreate).toHaveBeenCalledWith(createUserDto)
+      expect(mockRepository.insert).toHaveBeenCalledWith(mockUser)
       expect(result).toEqual({
         id: 1,
         username: 'testuser',
@@ -108,7 +127,8 @@ describe('UserService', () => {
 
       await expect(service.create(createUserDto)).rejects.toThrow(ConflictException)
       expect(mockRepository.findOne).toHaveBeenCalledWith({ username: createUserDto.username })
-      expect(mockRepository.create).not.toHaveBeenCalled()
+      expect(mockUserCreate).not.toHaveBeenCalled()
+      expect(mockRepository.insert).not.toHaveBeenCalled()
     })
   })
 
@@ -173,14 +193,111 @@ describe('UserService', () => {
   })
 
   describe('update', () => {
-    it('should return a string with the user id', () => {
+    it('should update a user successfully', async () => {
       const updateUserDto: UpdateUserDto = {
         email: 'updated@example.com',
       }
 
-      const result = service.update(1, updateUserDto)
+      const mockUser = {
+        id: 1,
+        username: 'testuser',
+        email: 'test@example.com',
+        password: 'hashed_password',
+        toJSON: jest.fn().mockReturnValue({
+          id: 1,
+          username: 'testuser',
+          email: 'updated@example.com',
+        }),
+      } as unknown as User
 
-      expect(result).toBe('This action updates a #1 user')
+      mockRepository.findOne = jest.fn().mockResolvedValue(mockUser)
+      mockRepository.nativeUpdate = jest.fn().mockResolvedValue(undefined)
+
+      const result = await service.update(1, updateUserDto)
+
+      expect(mockRepository.findOne).toHaveBeenCalledWith({ id: 1 })
+      expect(mockRepository.nativeUpdate).toHaveBeenCalledWith({ id: 1 }, mockUser)
+      expect(result).toEqual({
+        id: 1,
+        username: 'testuser',
+        email: 'updated@example.com',
+      })
+    })
+
+    it('should return null when user not found', async () => {
+      const updateUserDto: UpdateUserDto = {
+        email: 'updated@example.com',
+      }
+
+      mockRepository.findOne = jest.fn().mockResolvedValue(null)
+
+      const result = await service.update(999, updateUserDto)
+
+      expect(mockRepository.findOne).toHaveBeenCalledWith({ id: 999 })
+      expect(mockRepository.nativeUpdate).not.toHaveBeenCalled()
+      expect(result).toBeNull()
+    })
+
+    it('should throw ConflictException when updating to existing username', async () => {
+      const updateUserDto: UpdateUserDto = {
+        username: 'existinguser',
+      }
+
+      const mockUser = {
+        id: 1,
+        username: 'testuser',
+        email: 'test@example.com',
+      } as User
+
+      const existingUser = {
+        id: 2,
+        username: 'existinguser',
+        email: 'existing@example.com',
+      } as User
+
+      mockRepository.findOne = jest
+        .fn()
+        .mockResolvedValueOnce(mockUser) // First call for findOneById
+        .mockResolvedValueOnce(existingUser) // Second call for findOneByUsername
+
+      await expect(service.update(1, updateUserDto)).rejects.toThrow(ConflictException)
+      expect(mockRepository.findOne).toHaveBeenCalledWith({ id: 1 })
+      expect(mockRepository.findOne).toHaveBeenCalledWith({ username: 'existinguser' })
+      expect(mockRepository.nativeUpdate).not.toHaveBeenCalled()
+    })
+
+    it('should update username when no conflict exists', async () => {
+      const updateUserDto: UpdateUserDto = {
+        username: 'newusername',
+      }
+
+      const mockUser = {
+        id: 1,
+        username: 'testuser',
+        email: 'test@example.com',
+        toJSON: jest.fn().mockReturnValue({
+          id: 1,
+          username: 'newusername',
+          email: 'test@example.com',
+        }),
+      } as unknown as User
+
+      mockRepository.findOne = jest
+        .fn()
+        .mockResolvedValueOnce(mockUser) // First call for findOneById
+        .mockResolvedValueOnce(null) // Second call for findOneByUsername
+      mockRepository.nativeUpdate = jest.fn().mockResolvedValue(undefined)
+
+      const result = await service.update(1, updateUserDto)
+
+      expect(mockRepository.findOne).toHaveBeenCalledWith({ id: 1 })
+      expect(mockRepository.findOne).toHaveBeenCalledWith({ username: 'newusername' })
+      expect(mockRepository.nativeUpdate).toHaveBeenCalledWith({ id: 1 }, mockUser)
+      expect(result).toEqual({
+        id: 1,
+        username: 'newusername',
+        email: 'test@example.com',
+      })
     })
   })
 

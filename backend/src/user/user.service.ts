@@ -36,8 +36,25 @@ export class UserService {
     return (await this.userRepository.findOne({ username })) as User | null
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`
+  async update(id: number, updateUserDto: UpdateUserDto): Promise<EntityDTO<User> | null> {
+    const user = await this.findOneById(id)
+    if (!user) {
+      return null
+    }
+
+    // If updating username, check for conflicts
+    if (updateUserDto.username && updateUserDto.username !== user.username) {
+      const existingUser = await this.findOneByUsername(updateUserDto.username)
+      if (existingUser) {
+        throw new ConflictException('User with this username already exists')
+      }
+    }
+
+    // Update user properties
+    Object.assign(user, updateUserDto)
+
+    await this.userRepository.nativeUpdate({ id }, user)
+    return user.toJSON()
   }
 
   remove(id: number) {
