@@ -18,7 +18,7 @@ export const useLogin = defineMutation(() => {
       return response.data
     },
     onSuccess: (data) => {
-      tokenStore.setToken(data.acces_token)
+      tokenStore.setToken(data.access_token)
     },
     onError: (error) => {
       console.error('Login failed:', error)
