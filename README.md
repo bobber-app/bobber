@@ -34,7 +34,7 @@ This single command will:
 - Expose the services on the following ports:
     - Frontend: http://localhost:5173
     - Backend API: http://localhost:8080
-    - MySQL: localhost:3306
+    - MySQL: localhost:3307
 
 ### Development Workflow
 
@@ -186,3 +186,23 @@ In dit project verkennen we verschillende backend-opties voor het bouwen van een
 > **Aanbevolen keuze voor Bobber**:  
 > **NestJS** voor zijn schaalbaarheid, structuur en lange termijn onderhoud – met een goed ecosysteem voor groeiende features, realtime ondersteuning en TypeScript integratie.
 
+
+
+## Using pnpm
+
+This repository uses pnpm as the package manager and is configured as a workspace (pnpm-workspace.yaml) with two packages: app (Ionic/Vue) and backend (NestJS).
+
+- Enable Corepack to manage pnpm versions:
+  corepack enable
+- Install dependencies at the workspace root:
+  pnpm install -w
+
+Docker development (recommended):
+- Start all services:
+  docker-compose up
+
+Run services locally without Docker (optional):
+- Backend (NestJS) dev:
+  pnpm -C backend start:dev
+- Frontend (Vite/Ionic) dev:
+  pnpm -C app dev -- --host 0.0.0.0 --port 5173
