@@ -5,8 +5,8 @@ WORKDIR /app
 # Enable pnpm via Corepack
 RUN corepack enable && corepack prepare pnpm@9.12.3 --activate
 
-# Copy dependency manifests first for better layer caching
-COPY package.json pnpm-lock.yaml ./
+# Copy dependency manifest for better layer caching
+COPY package.json ./
 
 # Install dependencies (include dev deps for watch mode)
 RUN pnpm install
