@@ -1,13 +1,151 @@
-/.idea/.gitignore
-/.idea/bobber.iml
-/.idea/jsLinters/eslint.xml
-/.idea/git_toolbox_prj.xml
-/.idea/laravel-idea.xml
-/.idea/modules.xml
-/.idea/php.xml
-/.idea/prettier.xml
-/.idea/inspectionProfiles/Project_Default.xml
-/.idea/vcs.xml
-/app/vite.config.d.ts
-/app/vite.config.js
-/setup_bobber_release1.sh
+# Dependencies
+node_modules/
+.pnpm-store/
+.pnpm-debug.log*
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.production
+
+# Build outputs
+dist/
+build/
+coverage/
+*.tsbuildinfo
+.turbo/
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+database/
+data/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# Docker
+docker-data/
+*.tar
+.docker/
+
+# Testing
+.nyc_output/
+junit.xml
+test-results/
+playwright-report/
+
+# Capacitor (Mobile)
+app/android/app/build/
+app/android/app/release/
+app/android/app/debug/
+app/android/.gradle/
+app/android/build/
+app/android/gradle/
+app/android/gradlew
+app/android/gradlew.bat
+app/android/local.properties
+app/ios/App/build/
+app/ios/App/Pods/
+app/ios/App/Podfile.lock
+app/ios/App/xcuserdata/
+app/ios/App/*.xcworkspace/
+
+# NestJS specific
+backend/dist/
+backend/build/
+
+# Vue/Vite specific
+app/dist/
+app/.vite/
+app/.output/
+
+
+# ESLint cache
+.eslintcache
+
+# Prettier cache
+.prettiercache
+
+# Cypress
+app/cypress/videos/
+app/cypress/screenshots/
+app/cypress/downloads/
+
+# Vitest
+app/test-results/
+
+# Temporary files
+tmp/
+temp/
+.tmp/
+.temp/
+
+# Lock files (keep pnpm-lock.yaml for reproducible builds)
+# Uncomment the next line if you want to ignore lock files
+# pnpm-lock.yaml
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# MikroORM
+backend/temp/
+
+# Backup files
+*.bak
+*.backup
+*.orig
+
+# Certificate files
+*.pem
+*.key
+*.crt
+*.p12
+
+# Misc
+.cache/
+.parcel-cache/
+.next/
+.nuxt/
+.vercel/
+.netlify/
