@@ -22,7 +22,6 @@ export const useAuth = () => {
   return {
     // State
     isAuthenticated,
-    currentUser,
     token,
     isLoading,
 
