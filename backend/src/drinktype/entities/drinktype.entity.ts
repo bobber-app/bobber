@@ -1,6 +1,6 @@
 import { Entity, PrimaryKey, Property } from '@mikro-orm/core'
 
-@Entity({ tableName: 'drinktype' })
+@Entity()
 export class Drinktype {
   @PrimaryKey({ autoincrement: true })
   id!: number

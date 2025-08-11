@@ -77,7 +77,7 @@
           "mappedType": "datetime"
         }
       },
-      "name": "drinktype",
+      "name": "drinktypes",
       "indexes": [
         {
           "keyName": "PRIMARY",
@@ -137,14 +137,14 @@
           "mappedType": "string"
         }
       },
-      "name": "user",
+      "name": "users",
       "indexes": [
         {
           "columnNames": [
             "email"
           ],
           "composite": false,
-          "keyName": "user_email_unique",
+          "keyName": "users_email_unique",
           "constraint": true,
           "primary": false,
           "unique": true

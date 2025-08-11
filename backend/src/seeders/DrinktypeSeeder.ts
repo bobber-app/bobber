@@ -1,4 +1,4 @@
-import { EntityManager, sql } from '@mikro-orm/core'
+import { EntityManager } from '@mikro-orm/core'
 import { Seeder } from '@mikro-orm/seeder'
 import { Drinktype } from '@/drinktype/entities/drinktype.entity'
 
