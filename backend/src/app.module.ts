@@ -7,9 +7,10 @@ import { APP_GUARD } from '@nestjs/core'
 import { JwtAuthGuard } from './auth/jwt-auth.guard'
 import { MikroORM } from '@mikro-orm/core'
 import { DatabaseSeeder } from '@/seeders/DatabaseSeeder'
+import { DrinkModule } from './drink/drink.module'
 
 @Module({
-  imports: [MikroOrmModule.forRoot(), UserModule, AuthModule],
+  imports: [MikroOrmModule.forRoot(), UserModule, AuthModule, DrinkModule],
   controllers: [AppController],
   providers: [
     {

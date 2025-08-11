@@ -21,6 +21,12 @@ export class User {
   @IsStrongPassword()
   password: string
 
+  @Property({ onCreate: () => new Date() })
+  created_at!: Date
+
+  @Property({ onUpdate: () => new Date() })
+  updated_at!: Date
+
   constructor(dto: CreateUserDto) {
     this.username = dto.username
     this.email = dto.email

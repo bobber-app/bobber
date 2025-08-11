@@ -1,4 +1,5 @@
-import { Entity, PrimaryKey, Property } from '@mikro-orm/core'
+import { Entity, OneToMany, PrimaryKey, Property } from '@mikro-orm/core'
+import { Drink } from '@/drink/entities/drink.entity'
 
 @Entity()
 export class Drinktype {
@@ -22,4 +23,7 @@ export class Drinktype {
 
   @Property({ onUpdate: () => new Date() })
   updated_at!: Date
+
+  @OneToMany('Drink', 'Drinktype')
+  drinks!: Drink[]
 }
