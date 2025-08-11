@@ -7,6 +7,19 @@ const myAxios = axios.create({
   withXSRFToken: true,
 })
 
+myAxios.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('auth_token')
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
+    }
+    return config
+  },
+  (error) => {
+    return Promise.reject(error)
+  },
+)
+
 myAxios.interceptors.response.use(
   (response) => response, // Return successful responses as-is
   async (error) => {

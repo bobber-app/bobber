@@ -14,7 +14,7 @@ import { JwtAuthGuard } from './jwt-auth.guard'
 import { AuthenticatedRequest } from './auth.interfaces'
 import { CreateUserDto } from '@/user/dto/create-user.dto'
 import { Public } from '@/shared/public.decorator'
-import { LoginUserDto } from './dto/login-user.dto'
+import { LoginUserDto } from '@/auth/dto/login-user.dto'
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger'
 
 @Controller('auth')
