@@ -1,0 +1,31 @@
+name: Enforce PR Title Convention
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+jobs:
+  check-pr-title:
+    name: Validate PR title
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - name: Validate title format
+        shell: bash
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          echo "PR Title: $TITLE"
+          # Required format: "Type: Description (#123)"
+          # Types: Feature, Bugfix, Release, Hotfix
+          regex='^(Feature|Bugfix|Release|Hotfix): .+ \(#([0-9]+)\)$'
+          if [[ ! "$TITLE" =~ $regex ]]; then
+            echo "::error title=Invalid PR title::'$TITLE' does not match required format: 'Type: Description (#123)'."
+            echo "Examples:"
+            echo "  Feature: Add user authentication (#42)"
+            echo "  Bugfix: Fix total calculation on invoice (#56)"
+            echo "  Release: Prepare for v1.2.0 (#78)"
+            echo "  Hotfix: Resolve crash on signup (#91)"
+            exit 1
+          fi
+          echo "PR title OK ✅"
