@@ -14,7 +14,6 @@ export const useAuth = () => {
 
   // Computed properties
   const isAuthenticated = computed(() => tokenStore.isAuthenticated)
-  const currentUser = computed(() => tokenStore.user)
   const token = computed(() => tokenStore.token)
 
   // Loading states
