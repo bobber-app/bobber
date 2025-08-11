@@ -60,3 +60,4 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 !*.config.example.ts
 /pnpm-lock.yaml
 /temp/
+/.pnpm-store/

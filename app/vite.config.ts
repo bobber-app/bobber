@@ -14,4 +14,13 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  server: {
+    host: true, // listen on all interfaces (0.0.0.0) so Docker port mapping works
+    port: 5173,
+    strictPort: true,
+    hmr: {
+      host: 'localhost',
+      clientPort: 5173,
+    },
+  },
 })

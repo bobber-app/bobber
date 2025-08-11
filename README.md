@@ -1,6 +1,81 @@
 # Bobber
 Een cross-platform app die zorgt dat mensen hun drankgewoontes kunnen bijhouden. Zo zie je hoeveel je van alles gedronken hebt en kan je vergelijken met vrienden
 
+## Docker Development Setup
+
+This project uses Docker to provide a consistent development environment. The setup includes:
+
+- Frontend (Ionic/Vue with Vite)
+- Backend (NestJS)
+- MySQL database
+
+### Prerequisites
+
+- [Docker](https://www.docker.com/products/docker-desktop/) installed on your machine
+- [Docker Compose](https://docs.docker.com/compose/install/) (usually included with Docker Desktop)
+
+### Getting Started
+
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd bobber
+   ```
+
+2. Start the development environment:
+   ```bash
+   docker-compose up
+   ```
+
+This single command will:
+- Build and start the frontend, backend, and MySQL services
+- Set up the necessary network connections between services
+- Mount your local code as volumes for hot reloading
+- Expose the services on the following ports:
+    - Frontend: http://localhost:5173
+    - Backend API: http://localhost:8080
+    - MySQL: localhost:3307
+
+### Development Workflow
+
+- The frontend and backend code will automatically reload when you make changes
+- Frontend code is in the `app` directory
+- Backend code is in the `backend` directory
+- Database data is persisted in a Docker volume
+
+### Stopping the Environment
+
+To stop the development environment:
+
+```bash
+docker-compose down
+```
+
+To stop and remove all containers, networks, and volumes:
+
+```bash
+docker-compose down -v
+```
+
+## Using pnpm
+
+This repository uses pnpm as the package manager and is configured as a workspace (pnpm-workspace.yaml) with two packages: app (Ionic/Vue) and backend (NestJS).
+
+- Enable Corepack to manage pnpm versions:
+  corepack enable
+- Install dependencies at the workspace root:
+  pnpm install -w
+
+Docker development (recommended):
+- Start all services:
+  docker-compose up
+
+Run services locally without Docker (optional):
+- Backend (NestJS) dev:
+  pnpm -C backend start:dev
+- Frontend (Vite/Ionic) dev:
+  pnpm -C app dev -- --host 0.0.0.0 --port 5173
+
 ## Frontend
 
 Voor de frontend van **Bobber** verkennen we twee krachtige frameworks die beide mobiele én webapplicaties ondersteunen vanuit één codebase: **Quasar** en **Ionic**. Beide zijn geschikt voor PWA's, native apps (via Capacitor), en snelle ontwikkeling met moderne frontend stacks.
@@ -42,7 +117,6 @@ Voor de frontend van **Bobber** verkennen we twee krachtige frameworks die beide
 
 > **Aanbevolen keuze voor Bobber**:  
 > **Quasar** is een uitstekende keuze gezien je ervaring met Vue.js, en biedt veel flexibiliteit vanuit één codebase – ideaal voor snelle iteratie en deployment naar meerdere platforms.
-
 
 ## Backend
 
@@ -129,3 +203,7 @@ In dit project verkennen we verschillende backend-opties voor het bouwen van een
 
 > **Aanbevolen keuze voor Bobber**:  
 > **NestJS** voor zijn schaalbaarheid, structuur en lange termijn onderhoud – met een goed ecosysteem voor groeiende features, realtime ondersteuning en TypeScript integratie.
+
+
+
+

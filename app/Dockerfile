@@ -1,14 +1,23 @@
-# Stage 1: Install dependencies
-FROM node:20-alpine AS dependencies
-RUN npm install -g pnpm @quasar/cli
+FROM node:20-alpine
+
 WORKDIR /app
-COPY package.json pnpm-lock.yaml ./
+
+# Enable pnpm via Corepack
+RUN corepack enable && corepack prepare pnpm@10.14.0 --activate
+
+# Copy dependency manifests first for better layer caching
+COPY package.json ./
+
+# Install dependencies (include dev deps for watch mode)
 RUN pnpm install
 
-# Stage 2: Build and serve the application
-FROM dependencies AS production
-WORKDIR /app
+# Copy source (we install at runtime to work with bind mounts and anonymous node_modules volume)
 COPY . .
-RUN pnpm build
-EXPOSE 4000
-CMD ["quasar", "serve", "dist/spa", "--port", "4000", "--hostname", "0.0.0.0"]
+
+EXPOSE 5173
+
+# Ensure file watching works reliably in containers
+ENV CHOKIDAR_USEPOLLING=true
+
+# Install deps at container start (for mounted workspace) and run Vite dev server
+CMD ["sh", "-c", "pnpm run dev"]

@@ -1,24 +1,19 @@
-FROM node:24-alpine AS base
-RUN npm install -g pnpm
-
-FROM base AS dependencies
+FROM node:20-alpine
 
 WORKDIR /app
-COPY ./package.json ./pnpm-lock.yaml ./
+
+# Enable pnpm via Corepack
+RUN corepack enable && corepack prepare pnpm@10.14.0 --activate
+
+# Copy dependency manifests first for better layer caching
+COPY package.json ./
+
+# Install dependencies (include dev deps for watch mode)
 RUN pnpm install
 
-FROM base AS build
-
-WORKDIR /app
+# Copy the rest of the source code
 COPY . .
-COPY --from=dependencies /app/node_modules ./node_modules
-RUN pnpm build
-RUN pnpm prune --prod
 
-FROM base AS deploy
+EXPOSE 8080
 
-WORKDIR /app
-COPY --from=build /app/dist ./dist
-COPY --from=dependencies /app/node_modules ./node_modules
-
-CMD ["node", "dist/main"]
+CMD ["sh", "-c", "pnpm start:dev"]

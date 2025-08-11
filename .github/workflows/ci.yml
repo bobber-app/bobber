@@ -29,10 +29,13 @@ jobs:
         with:
           node-version: '20'
           cache: 'pnpm'
-          cache-dependency-path: './app/pnpm-lock.yaml'
+          # Use the workspace root lockfile
+          cache-dependency-path: 'pnpm-lock.yaml'
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+      # Install from repo root so pnpm creates app/node_modules
+      - name: Install dependencies (app)
+        working-directory: .
+        run: pnpm install --filter ./app... --frozen-lockfile
 
       - name: Run type checks
         run: pnpm run typecheck
@@ -71,15 +74,18 @@ jobs:
         with:
           node-version: '20'
           cache: 'pnpm'
-          cache-dependency-path: './backend/pnpm-lock.yaml'
+          # Use the workspace root lockfile
+          cache-dependency-path: 'pnpm-lock.yaml'
 
       - name: Install system dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y build-essential python3
 
-      - name: Install dependencies (ignore scripts)
-        run: pnpm install --frozen-lockfile --ignore-scripts
+      # Install from repo root so pnpm creates backend/node_modules
+      - name: Install dependencies (backend, ignore scripts)
+        working-directory: .
+        run: pnpm install --filter ./backend... --frozen-lockfile --ignore-scripts
 
       - name: Run essential postinstall scripts
         run: |
@@ -90,7 +96,6 @@ jobs:
           fi
         continue-on-error: true
 
-      # Add this step before your typecheck in your CI/CD pipeline
       - name: Create config files from examples
         run: |
           cd ./src

@@ -26,7 +26,7 @@ async function bootstrap() {
   SwaggerModule.setup('/docs', app, documentFactory)
   SwaggerModule.setup('/docs-json', app, documentFactory)
 
-  await app.listen(3000)
+  await app.listen(8080)
 }
 
 bootstrap().catch((err) => {

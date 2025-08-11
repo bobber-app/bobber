@@ -1,6 +1,5 @@
 import { AppController } from './app.controller'
-import { Module, OnModuleInit } from '@nestjs/common'
-import { MikroORM } from '@mikro-orm/mysql'
+import { Module } from '@nestjs/common'
 import { MikroOrmModule } from '@mikro-orm/nestjs'
 import { UserModule } from './user/user.module'
 import { AuthModule } from './auth/auth.module'
@@ -17,10 +16,4 @@ import { JwtAuthGuard } from './auth/jwt-auth.guard'
     },
   ],
 })
-export class AppModule implements OnModuleInit {
-  constructor(private readonly orm: MikroORM) {}
-
-  async onModuleInit(): Promise<void> {
-    await this.orm.getMigrator().up()
-  }
-}
+export class AppModule {}
