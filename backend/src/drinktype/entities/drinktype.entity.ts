@@ -1,19 +1,25 @@
 import { Entity, PrimaryKey, Property } from '@mikro-orm/core'
 
-@Entity()
+@Entity({ tableName: 'drink_types' })
 export class Drinktype {
-  @PrimaryKey()
+  @PrimaryKey({ autoincrement: true })
   id!: number
 
-  @Property()
+  @Property({ length: 100, nullable: false })
   name!: string
 
-  @Property()
+  @Property({ type: 'decimal', precision: 10, scale: 2, nullable: false })
   default_price!: number
 
-  @Property()
+  @Property({ type: 'decimal', precision: 8, scale: 2, nullable: false })
   default_size!: number
 
-  @Property()
+  @Property({ type: 'decimal', precision: 5, scale: 2, nullable: false })
   default_percentage!: number
+
+  @Property({ onCreate: () => new Date() })
+  created_at!: Date
+
+  @Property({ onUpdate: () => new Date() })
+  updated_at!: Date
 }

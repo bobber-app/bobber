@@ -1,4 +1,4 @@
-import { Entity, PrimaryKey, Property, wrap } from '@mikro-orm/core'
+import { Entity, PrimaryKey, Property, Unique, wrap } from '@mikro-orm/core'
 import { IsEmail, IsStrongPassword } from 'class-validator'
 import { CreateUserDto } from './dto/create-user.dto'
 import * as bcrypt from 'bcryptjs'
@@ -14,6 +14,7 @@ export class User {
 
   @Property()
   @IsEmail()
+  @Unique()
   email: string
 
   @Property({ hidden: true })
