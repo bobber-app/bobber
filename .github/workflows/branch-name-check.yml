@@ -1,0 +1,31 @@
+name: Enforce Branch Naming Convention
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+jobs:
+  check-branch-name:
+    name: Validate branch name
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - name: Validate branch name format
+        shell: bash
+        env:
+          BRANCH: ${{ github.head_ref }}
+        run: |
+          echo "Branch: $BRANCH"
+          # Allowed: feature/, bugfix/, release/, hotfix/ + kebab/snake/dots
+          regex='^(feature|bugfix|release|hotfix)\/[a-z0-9._-]+$'
+          if [[ ! "$BRANCH" =~ $regex ]]; then
+            echo "::error title=Invalid branch name::'$BRANCH' does not match required pattern: $regex"
+            echo "Allowed prefixes: feature/, bugfix/, release/, hotfix/"
+            echo "Examples:"
+            echo "  feature/login-form"
+            echo "  bugfix/incorrect-total"
+            echo "  release/1.2.0"
+            echo "  hotfix/crash-on-signup"
+            exit 1
+          fi
+          echo "Branch name OK ✅"
