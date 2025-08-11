@@ -1,10 +1,11 @@
 import { AppController } from './app.controller'
-import { Module } from '@nestjs/common'
+import { Module, OnModuleInit } from '@nestjs/common'
 import { MikroOrmModule } from '@mikro-orm/nestjs'
 import { UserModule } from './user/user.module'
 import { AuthModule } from './auth/auth.module'
 import { APP_GUARD } from '@nestjs/core'
 import { JwtAuthGuard } from './auth/jwt-auth.guard'
+import { MikroORM } from '@mikro-orm/core'
 
 @Module({
   imports: [MikroOrmModule.forRoot(), UserModule, AuthModule],
@@ -16,4 +17,10 @@ import { JwtAuthGuard } from './auth/jwt-auth.guard'
     },
   ],
 })
-export class AppModule {}
+export class AppModule implements OnModuleInit {
+  constructor(private readonly orm: MikroORM) {}
+
+  async onModuleInit(): Promise<void> {
+    await this.orm.getMigrator().up()
+  }
+}
