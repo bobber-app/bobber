@@ -6,11 +6,14 @@ export class Drinktype {
   id!: number
 
   @Property()
-  name: string
+  name!: string
 
   @Property()
-  default_price: number
+  default_price!: number
 
   @Property()
-  default_size: number
+  default_size!: number
+
+  @Property()
+  default_percentage!: number
 }
