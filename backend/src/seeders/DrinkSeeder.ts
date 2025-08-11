@@ -48,7 +48,7 @@ export class DrinkSeeder extends Seeder {
           })
 
           if (!existingDrink) {
-            const randomDate = this.getRandomDate();
+            const randomDate = this.getRandomDate()
             const drink = em.create(Drink, {
               user,
               drinktype,
