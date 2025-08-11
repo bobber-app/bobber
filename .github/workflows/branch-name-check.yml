@@ -16,16 +16,18 @@ jobs:
           BRANCH: ${{ github.head_ref }}
         run: |
           echo "Branch: $BRANCH"
-          # Allowed: feature/, bugfix/, release/, hotfix/ + kebab/snake/dots
-          regex='^(feature|bugfix|release|hotfix)\/[a-z0-9._-]+$'
+          # Allowed: feature/, bugfix/, release/, hotfix/ + issue number + hyphen + slug
+          # Example: feature/32-user-authentication
+          regex='^(feature|bugfix|release|hotfix)/[0-9]+-[a-z0-9._-]+$'
           if [[ ! "$BRANCH" =~ $regex ]]; then
             echo "::error title=Invalid branch name::'$BRANCH' does not match required pattern: $regex"
-            echo "Allowed prefixes: feature/, bugfix/, release/, hotfix/"
+            echo "Required format: <type>/<issue-number>-<kebab-or-slug>"
+            echo "Allowed types: feature, bugfix, release, hotfix"
             echo "Examples:"
-            echo "  feature/login-form"
-            echo "  bugfix/incorrect-total"
-            echo "  release/1.2.0"
-            echo "  hotfix/crash-on-signup"
+            echo "  feature/32-user-authentication"
+            echo "  bugfix/145-incorrect-total"
+            echo "  release/210-1.2.0"
+            echo "  hotfix/501-crash-on-signup"
             exit 1
           fi
           echo "Branch name OK ✅"

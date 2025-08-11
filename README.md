@@ -76,6 +76,23 @@ Run services locally without Docker (optional):
 - Frontend (Vite/Ionic) dev:
   pnpm -C app dev -- --host 0.0.0.0 --port 5173
 
+## naming conventions
+### Branch naming rules
+a branch should always start with the type, then the issue number and then the description
+for example:
+
+feature/12-user-authentication
+bugfix/login-redirect-error
+
+### PR naming rules
+a PR should always begin with the type, then the description and then the issue number
+for example:
+
+Feature: Add OAuth2 authentication (#145)
+Bugfix: Fix mobile responsive layout (#298)
+Release: Prepare version 2.1.0 (#312)
+Hotfix: Resolve SQL injection vulnerability (#456)
+
 ## Frontend
 
 Voor de frontend van **Bobber** verkennen we twee krachtige frameworks die beide mobiele én webapplicaties ondersteunen vanuit één codebase: **Quasar** en **Ionic**. Beide zijn geschikt voor PWA's, native apps (via Capacitor), en snelle ontwikkeling met moderne frontend stacks.
