@@ -32,9 +32,10 @@ jobs:
           # Use the workspace root lockfile
           cache-dependency-path: 'pnpm-lock.yaml'
 
-      - name: Install dependencies
-        # Run install at the workspace root (uses the root lockfile)
-        run: pnpm -w install --frozen-lockfile
+      # Install from repo root so pnpm creates app/node_modules
+      - name: Install dependencies (app)
+        working-directory: .
+        run: pnpm install --filter ./app... --frozen-lockfile
 
       - name: Run type checks
         run: pnpm run typecheck
@@ -81,9 +82,10 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y build-essential python3
 
-      - name: Install dependencies (ignore scripts)
-        # Run install at the workspace root (uses the root lockfile)
-        run: pnpm -w install --frozen-lockfile --ignore-scripts
+      # Install from repo root so pnpm creates backend/node_modules
+      - name: Install dependencies (backend, ignore scripts)
+        working-directory: .
+        run: pnpm install --filter ./backend... --frozen-lockfile --ignore-scripts
 
       - name: Run essential postinstall scripts
         run: |
