@@ -1,4 +1,4 @@
-import type { EntityManager } from '@mikro-orm/core'
+import { EntityManager, sql } from '@mikro-orm/core'
 import { Seeder } from '@mikro-orm/seeder'
 import { Drinktype } from '@/drinktype/entities/drinktype.entity'
 
@@ -48,7 +48,7 @@ export class DrinktypeSeeder extends Seeder {
     for (const dto of items) {
       const exists = await em.findOne(Drinktype, { name: dto.name })
       if (!exists) {
-        em.persist(em.create(Drinktype, dto))
+        em.persist(em.create(Drinktype, { ...dto, created_at: new Date(), updated_at: new Date() }))
       }
     }
 

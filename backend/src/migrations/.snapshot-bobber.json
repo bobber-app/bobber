@@ -15,33 +15,66 @@
         },
         "name": {
           "name": "name",
-          "type": "varchar(255)",
+          "type": "varchar(100)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "length": 255,
+          "length": 100,
           "mappedType": "string"
         },
         "default_price": {
           "name": "default_price",
-          "type": "int",
+          "type": "numeric(10,2)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "length": null,
-          "mappedType": "integer"
+          "precision": 10,
+          "scale": 2,
+          "mappedType": "decimal"
         },
         "default_size": {
           "name": "default_size",
-          "type": "int",
+          "type": "numeric(8,2)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "precision": 8,
+          "scale": 2,
+          "mappedType": "decimal"
+        },
+        "default_percentage": {
+          "name": "default_percentage",
+          "type": "numeric(5,2)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "precision": 5,
+          "scale": 2,
+          "mappedType": "decimal"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "datetime",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
           "length": null,
-          "mappedType": "integer"
+          "mappedType": "datetime"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "datetime",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": null,
+          "mappedType": "datetime"
         }
       },
       "name": "drinktype",
@@ -106,6 +139,16 @@
       },
       "name": "user",
       "indexes": [
+        {
+          "columnNames": [
+            "email"
+          ],
+          "composite": false,
+          "keyName": "user_email_unique",
+          "constraint": true,
+          "primary": false,
+          "unique": true
+        },
         {
           "keyName": "PRIMARY",
           "columnNames": [
