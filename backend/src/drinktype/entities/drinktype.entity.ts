@@ -24,6 +24,6 @@ export class Drinktype {
   @Property({ onUpdate: () => new Date() })
   updated_at!: Date
 
-  @OneToMany('Drink', 'Drinktype')
+  @OneToMany('Drink', 'drinktype')
   drinks!: Drink[]
 }

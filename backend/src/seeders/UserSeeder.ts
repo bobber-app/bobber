@@ -13,7 +13,7 @@ export class UserSeeder extends Seeder {
     for (const dto of users) {
       const exists = await em.findOne(User, { email: dto.email })
       if (!exists) {
-        em.persist(em.create(User, dto))
+        em.persist(em.create(User, { ...dto, created_at: new Date(), updated_at: new Date() }))
       }
     }
 

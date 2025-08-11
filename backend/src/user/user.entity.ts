@@ -28,7 +28,7 @@ export class User {
   @Property({ onUpdate: () => new Date() })
   updated_at!: Date
 
-  @OneToMany('Drink', 'User')
+  @OneToMany('Drink', 'user')
   drinks!: Drink[]
 
   constructor(dto: CreateUserDto) {
