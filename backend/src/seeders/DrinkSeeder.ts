@@ -48,14 +48,15 @@ export class DrinkSeeder extends Seeder {
           })
 
           if (!existingDrink) {
+            const randomDate = this.getRandomDate();
             const drink = em.create(Drink, {
               user,
               drinktype,
               amount,
               size: drinktype.default_size,
               price: drinktype.default_price,
-              created_at: this.getRandomDate(),
-              updated_at: this.getRandomDate(),
+              created_at: randomDate,
+              updated_at: randomDate,
             })
             em.persist(drink)
           }
