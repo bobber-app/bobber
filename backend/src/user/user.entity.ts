@@ -1,8 +1,9 @@
-import { Entity, PrimaryKey, Property, wrap } from '@mikro-orm/core'
+import { Entity, OneToMany, PrimaryKey, Property, Unique, wrap } from '@mikro-orm/core'
 import { IsEmail, IsStrongPassword } from 'class-validator'
 import { CreateUserDto } from './dto/create-user.dto'
 import * as bcrypt from 'bcryptjs'
 import { SALT_ROUNDS } from '@/secrets.config'
+import { Drink } from '@/drink/entities/drink.entity'
 
 @Entity()
 export class User {
@@ -14,11 +15,21 @@ export class User {
 
   @Property()
   @IsEmail()
+  @Unique()
   email: string
 
   @Property({ hidden: true })
   @IsStrongPassword()
   password: string
+
+  @Property({ onCreate: () => new Date() })
+  created_at!: Date
+
+  @Property({ onUpdate: () => new Date() })
+  updated_at!: Date
+
+  @OneToMany('Drink', 'user')
+  drinks!: Drink[]
 
   constructor(dto: CreateUserDto) {
     this.username = dto.username

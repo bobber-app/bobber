@@ -137,6 +137,21 @@ Voor de frontend van **Bobber** verkennen we twee krachtige frameworks die beide
 
 ## Backend
 
+### Database migrations and seeders
+The backend uses MikroORM for migrations and seeders.
+
+- Run pending migrations automatically on app start: already configured in AppModule (runs `migrator.up()` on boot).
+- Run migrations manually:
+  - pnpm -C backend db:migrate
+  - To revert last migration: pnpm -C backend db:migrate:down
+- Run seeders manually (runs the default DatabaseSeeder which calls DrinktypeSeeder and UserSeeder):
+  - pnpm -C backend db:seed
+- Run seeders automatically on app start (optional): set env var SEED=true for the backend service.
+  - Example (PowerShell): `$env:SEED='true'; pnpm -C backend start:dev`
+  - Example (Docker Compose): add `SEED: "true"` to the backend service environment.
+
+Seeder files live in backend/src/seeders and can be named freely (e.g., UserSeeder.ts). The MikroORM config is set up to discover them and to use DatabaseSeeder as the default.
+
 In dit project verkennen we verschillende backend-opties voor het bouwen van een schaalbare, moderne API voor **Bobber**. De focus ligt op technologieën die goed integreren met een frontend in **Quasar/Ionic** en makkelijk te hosten zijn op **Google Cloud**.
 
 ---
