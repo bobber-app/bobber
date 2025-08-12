@@ -3,13 +3,14 @@ import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { InjectRepository } from '@mikro-orm/nestjs'
 import { User } from './user.entity'
-import { EntityDTO, EntityRepository } from '@mikro-orm/core'
+import { EntityDTO, EntityManager, EntityRepository } from '@mikro-orm/core'
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: EntityRepository<User>,
+    private readonly em: EntityManager,
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<EntityDTO<User>> {
@@ -20,7 +21,7 @@ export class UserService {
     }
 
     const user = await User.create(createUserDto)
-    await this.userRepository.insert(user)
+    await this.em.persistAndFlush(user)
     return user.toJSON()
   }
 
@@ -53,7 +54,7 @@ export class UserService {
     // Update user properties
     Object.assign(user, updateUserDto)
 
-    await this.userRepository.nativeUpdate({ id }, user)
+    await this.em.persistAndFlush(user)
     return user.toJSON()
   }
 
